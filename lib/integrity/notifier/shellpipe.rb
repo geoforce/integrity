@@ -1,25 +1,25 @@
 
 module Integrity
   class Notifier
-    class Shell < Notifier::Base
+    class ShellPipe < Notifier::Base
       def self.to_haml
         <<-HAML
 %p.normal
   %label{ :for => "build_success" } On build success
   %input.text#build_success{                       |
-    :name => "notifiers[Shell][success_script]",   |
+    :name => "notifiers[ShellPipe][success_script]",   |
     :type => "text",                               |
     :value => config["success_script"] || "" }     |
 %p.normal
   %label{ :for => "build_failed" } On build fail
   %input.text#build_failed{                 |
-    :name => "notifiers[Shell][failed_script]",    |
+    :name => "notifiers[ShellPipe][failed_script]",    |
     :type => "text",                               |
     :value => config["failed_script"] ||  "" }     |
 %p.normal
   %label{ :for => "shell_announce_success" } Notify on success?
   %input#shell_announce_success{                                |
-    :name => "notifiers[Shell][announce_success]",              |
+    :name => "notifiers[ShellPipe][announce_success]",              |
     :type => "checkbox",                                        |
     :checked => config['announce_success'], :value => "1" }     |
         HAML
@@ -46,6 +46,6 @@ module Integrity
         end
     end
 
-    register Shell
+    register ShellPipe
   end
 end

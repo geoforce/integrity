@@ -24,7 +24,7 @@ require "integrity"
 # = AMQP
 # require "integrity/notifier/amqp"
 # = Shell
-# require "integrity/notifier/shell"
+require "integrity/notifier/shell"
 # = Co-op
 # require "integrity/notifier/coop"
 # = IRC
@@ -46,7 +46,7 @@ Integrity.configure do |c|
   # c.directory                 = File.dirname(__FILE__) + '/tmp/builds'
   
   # URL to the root of Integrity installation, used in notification emails:
-  c.base_url                    = "http://ci.example.org"
+  c.base_url                    = "http://zulu:9292"
   
   # Where to write the log file.
   # If running on Heroku, comment out c.log
@@ -56,7 +56,7 @@ Integrity.configure do |c|
   c.github_token                = "SECRET"
   
   # If true, build all commits. If false, only build HEAD after each push
-  c.build_all                   = true
+  c.build_all                   = false
   
   # Automatically create projects for newly pushed branches
   c.auto_branch                 = false
@@ -67,20 +67,24 @@ Integrity.configure do |c|
   
   # Which builder to use. Please refer to the documentation for the list
   # of builders and their limitations
-  c.builder                     = :threaded, 5
+  #c.builder                     = :threaded, 5
+  c.builder                     = :dj, {:adapter => 'sqlite3', :database => 'db/integrity_queue.db'}
   
   # How many builds to show by default on project pages
   c.project_default_build_count = 10
   
   # How often to collect build output from running builds
-  c.build_output_interval       = 5
+  c.build_output_interval       = 30
 
   # Make status badge public for all projects? Otherwise, login is
   # required to see status badge for private projects.
   c.status_image_always_public  = false
 
+  #c.username = "admin"
+  #c.password = 'gf1stpa33'
+
   # Use https://github.com/grahamc/git-cachecow to cache repository locally
-  # c.checkout_proc             = Proc.new do |runner, repo_uri, branch, sha1, target_directory|
-  #   runner.run! "git scclone #{repo_uri} #{target_directory} #{sha1}"
-  # end
+  c.checkout_proc             = Proc.new do |runner, repo_uri, branch, sha1, target_directory|
+    runner.run! "git scclone #{repo_uri} #{target_directory} #{sha1}"
+  end
 end
