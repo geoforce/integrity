@@ -30,7 +30,7 @@ module Integrity
             if fds
               # should have some data to read
               begin
-                chunk = rd.read_nonblock(10240)
+                chunk = rd.read_nonblock(1)
                 if block_given?
                   yield chunk
                 end
