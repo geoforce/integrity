@@ -24,7 +24,7 @@ require "integrity"
 # = AMQP
 # require "integrity/notifier/amqp"
 # = Shell
-require "integrity/notifier/shell"
+require "integrity/notifier/shell_pipe"
 # = Co-op
 # require "integrity/notifier/coop"
 # = IRC
